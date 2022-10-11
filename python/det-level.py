@@ -3,8 +3,6 @@ import pymc3
 import matplotlib.figure as figure
 import numpy
 
-model = pymc3.Model()
-
 data = numpy.array([100, 200, 400])
 nbins = data.shape[0]
 
@@ -13,6 +11,8 @@ variations = [ numpy.array([100, 200, 400]) ]
 vardiffs = variations - nominal
 nvariations = len(variations)
 
+
+model = pymc3.Model()
 
 with model:
   theta = \
