@@ -7,8 +7,8 @@ def idM(n):
   return numpy.diag(numpy.ones(n))
 
 
-data = numpy.array([100, 225, 380])
-datavars = numpy.array([[110, 225, 400], [100, 240, 400], [100, 225, 420]])
+data = numpy.array([100, 225, 420])
+datavars = numpy.array([[111, 226, 420], [100, 240, 400], [100, 225, 440]])
 datavardiffs = datavars - data
 
 nbins = data.shape[0]
@@ -23,7 +23,10 @@ model = pymc3.Model()
 
 with model:
   signalmu = pymc3.Uniform("signalmu", lower=-1000, upper=1000, shape=(1,))
-  predictions = background + signalmu*signal
+
+  bkgnorm = pymc3.Normal("bkgnorm", mu=1, sigma=0.05, shape=(1,))
+
+  predictions = background*bkgnorm + signalmu*signal
 
   _ = pymc3.Deterministic("predictions", predictions)
 
